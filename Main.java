@@ -19,10 +19,12 @@ public class Main {
 
         String[] lines = fileData.split("\n");
 
+        Hand[] allHands = new Hand[lines.length];
+
+        int z =0;
         for (String line : lines) {
             String[] numbers = line.split("[,|]");
             int[] values = new int[numbers.length];
-
 
             for (int i = 0; i < numbers.length; i++) {
                 if (numbers[i].equals("King")) {
@@ -42,14 +44,22 @@ public class Main {
                 }
             }
             Hand hand = new Hand(values);
+            allHands[z] = hand;
+            z++;
         }
 
-        System.out.println("Number of five of a kind hands: "+ Hand.getFiveOfKind());
-        System.out.println("Number of full house hands: "+ Hand.getFullHouse());
-        System.out.println("Number of four of a kind hands: "+ Hand.getFourOfKind());
-        System.out.println("Number of three of a kind hands: "+ Hand.getThreeOfKind());
-        System.out.println("Number of two pair hands: "+ Hand.getTwoPair());
-        System.out.println("Number of one pair hands: "+ Hand.getOnePair());
-        System.out.println("Number of high card hands: "+ Hand.getHighCard());
+        int total = 0;
+        for (int i = 0; i < allHands.length; i++) {
+            int rank = Hand.determineRank(allHands[i],allHands);
+            total+=allHands[i].wager*rank;
+        }
+        System.out.println("Number of five of a kind hands: " + Hand.getFiveOfKind());
+        System.out.println("Number of full house hands: " + Hand.getFullHouse());
+        System.out.println("Number of four of a kind hands: " + Hand.getFourOfKind());
+        System.out.println("Number of three of a kind hands: " + Hand.getThreeOfKind());
+        System.out.println("Number of two pair hands: " + Hand.getTwoPair());
+        System.out.println("Number of one pair hands: " + Hand.getOnePair());
+        System.out.println("Number of high card hands: " + Hand.getHighCard());
+        System.out.println("Total Bid Value: " + total);
     }
 }
